@@ -27,7 +27,9 @@ int COM(int n, int k) {
 	return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
 }
 int add(int a, int b) {
-	return ((a % MOD) + (b % MOD)) % MOD;
+	a += b;
+	if (a >= MOD) a -= MOD;
+	return a;
 }
 int mul(int a, int b) {
 	return ((a % MOD) * (b % MOD)) % MOD;
