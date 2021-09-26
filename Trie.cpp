@@ -52,3 +52,61 @@ public:
 	}
 
 };
+
+**************
+
+
+const int logn = 31;
+const int N = 1e5 + 5;
+int ptr;
+int nxt[logn * N * 5][2], cnt[logn * N * 5];
+
+int getBit(int val, int i) {
+	return ((val >> i) & 1);
+}
+
+void add(int val) {
+	int curr = 0;
+	for (int i = logn; i >= 0; i--) {
+		int bit = getBit(val, i);
+		if (!nxt[curr][bit]) nxt[curr][bit] = ++ptr;
+		curr = nxt[curr][bit];
+		cnt[curr]++;
+	}
+}
+
+void rem(int val) {
+	int curr = 0;
+	for (int i = logn; i >= 0; i--) {
+		int bit = getBit(val, i);
+		if (!nxt[curr][bit]) nxt[curr][bit] = ++ptr;
+		curr = nxt[curr][bit];
+		cnt[curr]--;
+	}
+}
+
+int query(int k, int l) {
+	int curr = 0;
+	int ret = 0;
+	for (int i = logn; i >= 0; i--) {
+		int x = getBit(k, i);
+		int y = getBit(l, i);
+		if (y) {
+			if (nxt[curr][x]) {
+				ret += cnt[nxt[curr][x]];
+			}
+			if (nxt[curr][!x]) {
+				curr = nxt[curr][!x];
+			} else {
+				return ret;
+			}
+		} else {
+			if (nxt[curr][x]) {
+				curr = nxt[curr][x];
+			} else {
+				return ret;
+			}
+		}
+	}
+	return ret;
+}

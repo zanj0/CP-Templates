@@ -145,3 +145,5 @@ main()
 
 
 *********************
+
+https://github.com/ADJA/algos/blob/master/Strings/PalindromeTree.cpp
