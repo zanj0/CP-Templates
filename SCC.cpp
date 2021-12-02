@@ -12,7 +12,7 @@ void dfs(int node, int par = -1) {
 	low[node] = disc[node] = d;
 	d++;
 	for (auto& it : graph[node]) {
-		if (it == par) continue;
+		if (it == par) continue; // Remove this for directed graph.
 		if (!visited[it]) {
 			dfs(it, node);
 			low[node] = min(low[node], low[it]);
