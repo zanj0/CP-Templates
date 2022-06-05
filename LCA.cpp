@@ -47,3 +47,7 @@ void pre() {
 		}
 	}
 }
+int GetDistance(int u, int v) {
+	int l = lca(u, v);
+	return level[u] + level[v] - 2 * level[l];
+}

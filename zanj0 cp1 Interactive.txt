@@ -5,7 +5,10 @@
 
 #include<bits/stdc++.h>
 using namespace std;
-
+/*
+g++ A.cpp -o test.exe
+./test.exe
+*/
 #define int 			long long int
 #define ff              first
 #define ss              second
