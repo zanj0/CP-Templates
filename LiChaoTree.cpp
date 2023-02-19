@@ -49,3 +49,12 @@ public:
 		return ret;
 	}
 };
+
+/*
+
+Can be used when the dp transitions have value like y = mx + c.
+dp[x] = some_value + (mj * x + cj)
+
+Example: https://codeforces.com/problemset/problem/1083/E
+Tutorial: https://codeforces.com/blog/entry/63823
+*/

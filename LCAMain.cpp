@@ -1,5 +1,6 @@
 class LCA {
 public:
+	// Works on 1 based indexing
 	lli* level;
 	lli** dp;
 	vector < vector <lli> > graph;
@@ -9,7 +10,7 @@ public:
 		this->l = l;
 		this->n = n;
 		this->graph = graph;
-		level = new lli [n + 5];
+		level = new lli [n + 5]();
 		dp = new lli* [l + 5];
 		for (lli i = 0; i <= l; i++) {
 			dp[i] = new lli[n + 5];
@@ -60,5 +61,9 @@ public:
 			}
 		}
 
+	}
+	lli getDistance(lli a, lli b) {
+		lli l = lca(a, b);
+		return level[a] + level[b] - 2 * level[l];
 	}
 };

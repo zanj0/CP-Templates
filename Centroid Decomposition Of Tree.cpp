@@ -1,3 +1,5 @@
+// https://codeforces.com/contest/342/submission/159531558
+
 const int N = 1e5 + 5;
 set <int> graph[N];
 int parent[N];

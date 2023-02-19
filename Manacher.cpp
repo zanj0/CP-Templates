@@ -1,3 +1,80 @@
+class Solution {
+public:
+    string GetUpdatedString(string& s) {
+        int n = s.size();
+        string ret = "";
+        for (int i = 0; i < n; i++) {
+            ret += '#';
+            ret += s[i];
+        }
+        ret += '#';
+        return ret;
+    }
+
+    vector<int> Manachar(string& s) {
+        s = GetUpdatedString(s); // Adding '#' before character and after the last character. This is done because the implementation only supports finding the best palindrome length per centre for odd length strings.
+        int n = s.size();
+        vector<int> palindrome_length(n); // Longest length of the palidrome starting from ith position. Note: Length does not include the current character.
+        int right = 0, mirror_character_position = 0, last_palindrome_middle = 0, distance_of_i_from_last_palindrome_middle = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            // Using the precomputed length from the last palindrome.
+            distance_of_i_from_last_palindrome_middle = i - last_palindrome_middle;
+            mirror_character_position = last_palindrome_middle - distance_of_i_from_last_palindrome_middle;
+            if (i <= right) {
+                palindrome_length[i] = min(right - i, palindrome_length[mirror_character_position]);
+            }
+
+            // Checking for better answer with ith character as the centre.
+            int new_left = i - (1 + palindrome_length[i]);
+            int new_right = i + (1 + palindrome_length[i]);
+            while (new_left >= 0 && new_right < n && s[new_left] == s[new_right]) {
+                palindrome_length[i]++;
+                new_right++;
+                new_left--;
+            }
+
+            // 'right' denotes the right most index till which we have found a palindrome. Updating 'right' if 'new_right' exceeds 'right'.
+            if (new_right - 1 > right ) {
+                right = new_right - 1;
+                last_palindrome_middle = i;
+            }
+        }
+        return palindrome_length;
+    }
+
+    string GetLongestPalindrome(string& s, vector<int>& longest_palindrome_per_centre) {
+        string ret = "";
+        int n = s.size();
+        int best_length = -1;
+        int centre_with_best_length = -1;
+
+        for (int i = 0; i < n; i++) {
+            if (longest_palindrome_per_centre[i] > best_length) {
+                best_length = longest_palindrome_per_centre[i];
+                centre_with_best_length = i;
+            }
+        }
+
+        for (int i = centre_with_best_length - best_length; i <= centre_with_best_length + best_length; i++) {
+            if (s[i] != '#') {
+                ret += s[i];
+            }
+        }
+        return ret;
+    }
+
+    string longestPalindrome(string s) {
+        vector<int> longest_palindrome_per_centre = Manachar(s);
+        return GetLongestPalindrome(s, longest_palindrome_per_centre);;
+    }
+};
+
+
+
+
+== == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
 vector<int> manachar(string s)
 {
     int n = s.size();

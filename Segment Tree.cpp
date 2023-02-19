@@ -86,7 +86,16 @@ public:
     void pull(int node) {
         tree[node] = operate(tree[left(node)], tree[right(node)]);
     }
-
+    void buildTree(int low, int high, int node, vector <int>& arr) {
+        if (low == high) {
+            tree[node] = arr[low];
+            return;
+        }
+        int mid = low + (high - low) / 2;
+        buildTree(low, mid, left(node), arr);
+        buildTree(mid + 1, high, right(node), arr);
+        pull(node);
+    }
     int query(int low, int high, int node, int qlow, int qhigh) {
 
         if (qlow > high || qhigh < low) return -inf;
