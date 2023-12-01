@@ -20,6 +20,9 @@ public:
 		}
 		return ret;
 	}
+	int rangeQuery(int l, int r) {
+		return query(r) - (l == 0 ? 0 : query(l - 1));
+	}
 };
 
 class Fenwick {
