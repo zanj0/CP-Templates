@@ -5,6 +5,7 @@
 
 #include<bits/stdc++.h>
 using namespace std;
+#define LOCAL
 #define ff              first
 #define ss              second
 #define pb              push_back
@@ -15,13 +16,17 @@ typedef long long int lli;
 
 class Solution {
 public:
-	bool methodName() {
-		return true;
+	int sortArray(vector<int>& nums) {
+		int ret = 0;
+
+		return ret;
 	}
 };
 
 
+#ifdef LOCAL
 int main() {
 	freopen("output.txt", "w", stdout);
 	cout << "Compiled!" << endl;
 }
+#endif

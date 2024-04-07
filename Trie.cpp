@@ -168,3 +168,47 @@ public:
 	}
 
 };
+
+**************
+
+const int K = 26;
+class TrieNode {
+public:
+	TrieNode* child[K];
+	int counter;
+	bool complete;
+
+	TrieNode() {
+		for (int i = 0; i < K; i++) {
+			child[i] = NULL;
+		}
+		counter = 0;
+		complete = false;
+	}
+
+	void insertNode(string& s) {
+		TrieNode* curr = this;
+		for (auto& it : s) {
+			if (curr->child[it - 'a'] == NULL) {
+				curr->child[it - 'a'] = new TrieNode();
+			}
+			curr = curr->child[it - 'a'];
+		}
+		curr->complete = true;
+	}
+
+
+
+	bool query(string s) {
+		TrieNode* curr = this;
+		for (auto& it : s) {
+			if (curr->child[it - 'a'] == NULL) {
+				return false;
+			}
+			curr = curr->child[it - 'a'];
+			if (curr->complete) return false;
+		}
+		return curr->complete;
+	}
+
+};

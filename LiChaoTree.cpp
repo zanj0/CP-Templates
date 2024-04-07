@@ -1,7 +1,7 @@
 struct Node {
-	vector <int> line;
+	pair<int, int > line;
 	Node *left, *right;
-	Node(vector <int> l) {
+	Node(pair<int, int > l) {
 		left = right = NULL;
 		line = l;
 	}
@@ -10,8 +10,8 @@ struct LiChaoTree {
 public:
 	Node* root;
 	int low, high, defValue;
-	int f(vector <int> line, int x) {
-		int ret = line[0] * x + line[1];
+	int f(pair<int, int > line, int x) {
+		int ret = line.ff * x + line.ss;
 		return ret;
 	}
 	LiChaoTree(int n) {
@@ -20,10 +20,10 @@ public:
 		high = n + 1; // [low, high)
 		root = new Node({0, defValue});
 	}
-	void insertLine(vector <int> line) {
+	void insertLine(pair<int, int > line) {
 		insert(root, line, low, high);
 	}
-	void insert(Node* curr, vector <int> line, int low, int high) {
+	void insert(Node* curr, pair<int, int > line, int low, int high) {
 		int m = low + (high - low) / 2;
 		bool l = f(line, low) > f(curr->line, low);
 		bool mid = f(line, m) > f(curr->line, m);
