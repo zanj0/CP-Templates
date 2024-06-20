@@ -97,3 +97,61 @@ public:
 		return distinctComponents == 1;
 	}
 };
+
+
+*******************
+
+// Small to big
+
+class UnionFind {
+public:
+	int* rank;
+	int* parent;
+	int n;
+	vector<vector<int>> graph;
+	vector<int> graph_parent;
+	UnionFind(int n) {
+		this->n = n;
+		parent = new int[n];
+		rank = new int[n];
+		graph = vector<vector<int>>(n);
+		graph_parent = vector<int>(n, -1);
+		for (int i = 0; i < n; i++) {
+			parent[i] = i;
+			rank[i] = 1;
+		}
+	}
+	int getParent(int x) {
+		if (parent[x] == x) return x;
+		return parent[x] = getParent(parent[x]);
+	}
+	bool unite(int a, int b) {
+		int parA = getParent(a);
+		int parB = getParent(b);
+		if (parA == parB) return false;
+		if (rank[parA] >= rank[parB]) {
+			rank[parA] += rank[parB];
+			parent[parB] = parA;
+		} else {
+			rank[parB] += rank[parA];
+			parent[parA] = parB;
+		}
+		return true;
+	}
+	void Dfs(int node, int par) {
+		graph_parent[node] = par;
+		for (auto& it : graph[node]) {
+			if (it == par) continue;
+			Dfs(it, node);
+		}
+	}
+	void Join(int u, int v) {
+		int par_u = getParent(u);
+		int par_v = getParent(v);
+		if (rank[par_u] > rank[par_v]) swap(u, v);
+		Dfs(u, v);
+		graph[u].pb(v);
+		graph[v].pb(u);
+		unite(u, v);
+	}
+};
