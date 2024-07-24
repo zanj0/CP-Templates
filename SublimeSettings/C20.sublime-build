@@ -1,0 +1,4 @@
+{
+	
+"cmd": ["bash", "-c", "g++ '${file}' -std=c++2a -o '${file_path}/${file_base_name}' && '${file_path}/${file_base_name}'"]
+}

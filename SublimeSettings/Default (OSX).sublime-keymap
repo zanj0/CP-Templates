@@ -1,0 +1,10 @@
+[
+    { 
+        "keys": ["ctrl+alt+;"], "command": "toggle_terminus_panel", "args": {
+            "cwd": "${file_path:${folder}}"
+        }
+    },
+    { 
+        "keys": ["ctrl+alt+shift+;"], "command": "terminus_close"
+    }
+]
