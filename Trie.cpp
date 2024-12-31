@@ -212,3 +212,73 @@ public:
 	}
 
 };
+
+--------------------------
+
+// Refer usage: https://leetcode.com/submissions/detail/1493539082/
+const int K = 26;
+struct TrieNode {
+	lli len = 0, suffix = 0, dictionary = 0, cost = inf;
+	array<lli, K> nxt;
+};
+
+struct Trie {
+	static constexpr lli unassigned = 0, root = 1;
+
+	vector<TrieNode> tree;
+
+	int newNode(TrieNode node) {
+		tree.pb(node);
+		return tree.size() - 1;
+	}
+
+	Trie() {
+		tree.assign(2, {});
+		tree[unassigned].len = -1;
+		tree[unassigned].nxt.fill(1);
+	}
+
+	void addWord(string& s, lli cost) {
+		int u_id = root;
+
+		for (auto& c : s) {
+			int x = c - 'a';
+			if (tree[u_id].nxt[x] == unassigned) {
+				tree[u_id].nxt[x] = newNode({.len = tree[u_id].len + 1});
+			}
+			u_id = tree[u_id].nxt[x];
+		}
+		tree[u_id].cost = min(tree[u_id].cost, cost);
+	}
+
+	tuple<TrieNode*, lli> ref(int id) {
+		return {&tree[id], id};
+	}
+
+	TrieNode* operator[](int id) {
+		return &tree[id];
+	}
+
+	void ahoCorasick() {
+		queue<int> q;
+		q.push(root);
+
+		while (!q.empty()) {
+			auto [u, u_id] = ref(q.front());
+			q.pop();
+
+			for (int x = 0; x < K; x++) {
+				auto [v, v_id]  = ref(u->nxt[x]);
+				auto [suffix, suffix_id]  = ref(tree[u->suffix].nxt[x]);
+				if (v_id == unassigned) {
+					u->nxt[x] = suffix_id;
+				} else {
+					v->suffix = suffix_id;
+					v->dictionary = suffix->cost != inf ? suffix_id : suffix->dictionary;
+					q.push(v_id);
+				}
+			}
+		}
+	}
+};
+--------------------------

@@ -12,10 +12,9 @@ using namespace __gnu_pbds;
 template <class T>
 using ordered_set =  __gnu_pbds::tree<T, __gnu_pbds::null_type, less<T>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
 /*
-g++-13 A.cpp -o test.exe
+g++-14 A.cpp -o test.exe
 ./test.exe
 */
-#define int 			long long int
 #define ff              first
 #define ss              second
 #define pb              push_back
@@ -24,6 +23,8 @@ g++-13 A.cpp -o test.exe
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define w(x)            int x; cin>>x; while(x--)
 #define timetaken cerr<<"Time : "<<1000*(long double)clock()/(long double)CLOCKS_PER_SEC<<"ms\n"
+
+typedef long long int lli;
 
 void zanj0()
 {

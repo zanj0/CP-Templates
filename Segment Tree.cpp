@@ -369,3 +369,90 @@ lli Query(lli query_left, lli query_right, lli node = 1, lli low = 1, lli high =
     }
     return ret;
 }
+
+
+*****************************
+
+struct Node {
+    lli sum, min_val, max_val;
+    Node() {
+        sum = 0;
+        min_val = inf;
+        max_val = -inf;
+    }
+};
+const lli OFFSET = 1e5 + 5;
+class SegmentTree {
+public:
+    vector<Node> tree;
+    vector<lli> lazy;
+    SegmentTree(lli n) {
+        tree = vector<Node>(4 * n + 5);
+        lazy = vector<lli>(4 * n + 5, -1);
+
+
+    }
+    lli left(lli x) {
+        return 2 * x + 1;
+    }
+    lli right(lli x) {
+        return 2 * x + 2;
+    }
+    void Push(lli low, lli high , lli node) {
+        if (lazy[node] == -1) {
+            return;
+        }
+        lli len = high - low + 1;
+        tree[node].sum = lazy[node] * len;
+        tree[node].max_val = lazy[node];
+        tree[node].min_val = lazy[node];
+
+        if (low != high) {
+            lazy[left(node)] = lazy[node];
+            lazy[right(node)] = lazy[node];
+        }
+
+        lazy[node] = -1;
+    }
+    Node operate(Node& a, Node& b) {
+        Node ret;
+        ret.sum = a.sum + b.sum;
+        ret.max_val = max(a.max_val, b.max_val);
+        ret.min_val = min(a.min_val, b.min_val);
+        return ret;
+    }
+    void pull(lli node) {
+        tree[node] = operate(tree[left(node)], tree[right(node)]);
+    }
+
+    Node query(lli low, lli high, lli node, lli qlow, lli qhigh) {
+
+        if (qlow > high || qhigh < low) {
+            Node temp;
+            return temp;
+        }
+        Push(low, high, node);
+        if (qlow <= low && qhigh >= high) {
+            return tree[node];
+        }
+        lli mid = low + (high - low) / 2;
+        Node l = query(low, mid, left(node), qlow, qhigh);
+        Node r = query(mid + 1, high, right(node), qlow, qhigh);
+        return operate(l, r);
+    }
+    void update(lli low, lli high, lli node, lli q_low, lli q_high, lli val) {
+        Push(low, high, node);
+        if (q_low > high || q_high < low) return;
+        if (q_low <= low && q_high >=  high) {
+            lazy[node] = val;
+            Push(low, high, node);
+            return;
+        }
+        lli mid = low + (high - low) / 2;
+        update(low, mid, left(node), q_low, q_high,  val);
+        update(mid + 1, high, right(node), q_low, q_high,  val);
+        pull(node);
+
+    }
+
+};

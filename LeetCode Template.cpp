@@ -14,13 +14,13 @@ using namespace std;
 
 typedef long long int lli;
 
-class Solution {
-public:
-	int sortArray(vector<int>& nums) {
-		int ret = 0;
 
-		return ret;
-	}
+class Solution {
+    
+    public:
+    void Solve() {
+        
+    }
 };
 
 
