@@ -54,3 +54,40 @@ public:
 		add(i, -query(i));
 	}
 };
+
+
+
+
+
+
+
+const lli OFF_SET = 5;
+class Fenwick {
+public:
+	lli* arr;
+	lli n;
+	Fenwick(lli n) {
+        n += OFF_SET;
+		arr = new lli[n]();
+		this->n = n;
+	}
+	void add(lli idx, lli val) {
+        idx += OFF_SET;
+		while (idx < n) {
+			arr[idx] += val;
+			idx += idx & -idx;
+		}
+	}
+	lli query(lli idx) {
+        idx += OFF_SET;
+		lli ret  = 0;
+		while (idx > 0) {
+			ret += arr[idx];
+			idx -= idx & (-idx);
+		}
+		return ret;
+	}
+	lli rangeQuery(lli l, lli r) {
+		return query(r) - (l == 0 ? 0 : query(l - 1));
+	}
+};

@@ -16,11 +16,11 @@ typedef long long int lli;
 
 
 class Solution {
-    
-    public:
-    void Solve() {
-        
-    }
+public:
+	int cntGood(int n, int k) {
+		// code here
+
+	}
 };
 
 
@@ -30,3 +30,4 @@ int main() {
 	cout << "Compiled!" << endl;
 }
 #endif
+

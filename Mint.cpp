@@ -1,8 +1,8 @@
 const int mod = 1000000007;
 const int mod = 998244353;
 struct mint {
-  ll x; // typedef long long ll;
-  mint(ll x = 0): x((x % mod + mod) % mod) {}
+  lli x; 
+  mint(lli x = 0): x((x % mod + mod) % mod) {}
   mint operator-() const { return mint(-x);}
   mint& operator+=(const mint a) {
     if ((x += a.x) >= mod) x -= mod;
@@ -16,7 +16,7 @@ struct mint {
   mint operator+(const mint a) const { return mint(*this) += a;}
   mint operator-(const mint a) const { return mint(*this) -= a;}
   mint operator*(const mint a) const { return mint(*this) *= a;}
-  mint pow(ll t) const {
+  mint pow(lli t) const {
     if (!t) return 1;
     mint a = pow(t >> 1);
     a *= a;

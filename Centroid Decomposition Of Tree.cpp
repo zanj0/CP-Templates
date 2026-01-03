@@ -72,3 +72,93 @@ void dfs1(int node, int par, char curr = 'A') {
 
 }
 
+-------------------------------------------
+
+Usage: https://cses.fi/paste/685d697bf0f130d8ec8f37/
+
+/*Centroid Decomposition - Start*/
+lli n, k;
+const lli N = 2e5 + 5;
+vector<lli> graph[N];
+bool dead[N];
+lli subtree_size[N];
+lli ret = 0;
+
+void DfsSize(lli node, lli par)
+{
+    subtree_size[node] = 1;
+    for (auto &it : graph[node])
+    {
+        if (it == par || dead[it])
+            continue;
+        DfsSize(it, node);
+        subtree_size[node] += subtree_size[it];
+    }
+}
+
+void DfsCollectDistance(lli node, lli par, lli distance, vector<lli> &distances)
+{
+    if (distance > k)
+        return;
+    distances.pb(distance);
+
+    for (auto &it : graph[node])
+    {
+        if (it == par || dead[it])
+            continue;
+        DfsCollectDistance(it, node, distance + 1, distances);
+    }
+}
+
+lli GetCentroid(lli node, lli parent, lli size)
+{
+    for (auto &it : graph[node])
+    {
+        if (it == parent || dead[it])
+            continue;
+        if (subtree_size[it] > size / 2)
+            return GetCentroid(it, node, size);
+    }
+    return node;
+}
+
+void Decompose(lli node)
+{
+    DfsSize(node, -1);
+    lli centroid = GetCentroid(node, -1, subtree_size[node]);
+
+    vector<lli> cnt(min(k, subtree_size[node]) + 1);
+    cnt[0] = 1;
+
+    for (auto &it : graph[centroid])
+    {
+        if (dead[it])
+            continue;
+        vector<lli> distances;
+        DfsCollectDistance(it, centroid, 1, distances);
+
+        for (auto &distance : distances)
+        {
+            lli need = k - distance;
+            if (need >= 0 && need < cnt.size())
+            {
+                ret += cnt[need];
+            }
+        }
+
+        for (auto &distance : distances)
+        {
+            if (distance < cnt.size())
+                cnt[distance]++;
+        }
+    }
+
+    dead[centroid] = 1;
+    for (auto &it : graph[centroid])
+    {
+        if (dead[it])
+            continue;
+        Decompose(it);
+    }
+}
+/*Centroid Decomposition - End*/

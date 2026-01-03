@@ -195,7 +195,6 @@ struct Segtree {
 
     void build(vector<T>a)
     {
-        assert(sz(a) == n);
         buildUtil(0, 0, n - 1, a);
     }
     T query(int l, int r)
@@ -456,3 +455,35 @@ public:
     }
 
 };
+
+--------------
+
+// Iterative: https://cses.fi/paste/1b1e934f86be3eb7b19e6c/
+
+const int N = 2e5 + 5;
+
+int n, q, A[N];
+lli pre[N][30];
+arr segment_tree[N * 2];
+
+arr Combine(arr& a, arr& b) {
+    arr ret;
+    for (int i  = 0; i < a.size(); i++) {
+        ret[i] = min(a[i], b[i]);
+    }
+    return ret;
+}
+
+arr Query(int l, int r) {
+    arr ret;
+    fill(ret.begin(), ret.end(), 2e9);
+    for (l += N, r += N; l <= r; r /= 2, l /= 2) {
+        if (l & 1) {
+            ret = Combine(ret, segment_tree[l++]);
+        }
+        if (r % 2 == 0) {
+            ret = Combine(ret, segment_tree[r--]);
+        }
+    }
+    return ret;
+}

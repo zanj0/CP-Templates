@@ -2,7 +2,9 @@ const int MAX = 1e3 + 5;
 int fac[MAX], finv[MAX];
 int inv[MAX];
 int nCr(int n, int r) {
+	if (r > n) return 0;
 	int ret = 1;
+	if (r > n - r) r = n - r;
 	for (int i = 1; i <= r; i++) {
 		ret = ret  * (n - i + 1);
 		ret /= i;
